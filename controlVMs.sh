@@ -14,35 +14,34 @@ do
 		if [ $operation = "shutdown" ]
 		then
 			ssh $i 'sudo systemctl poweroff'
-			echo Shutdown command sent to $i.
+			echo "Shutdown command sent to $i."
 
 		elif [ $operation = "update" ]
 		then
 			ssh $i 'correctpkg=$(whereis apt) && [ "$correctpkg" = "apt:" ] && sudo yum update -y' &
 			ssh $i 'correctpkg=$(whereis yum) && [ "$correctpkg" = "yum:" ] && sudo apt-get update -y && sudo apt-get upgrade -y' &
-			echo Update command sent to $i.
+			echo "Update command sent to $i."
 		else
-			echo Invalid operation specified.
+			echo "Invalid operation specified."
 		fi
 	else
-		echo $i currently not reachable, skipping....
+		echo "$i currently not reachable, skipping...."
 	fi
 done
 
 wait
 
-echo Remote machines processed.
+echo "Remote machines processed."
 
 if [ $operation = "shutdown" ]
 then
-	echo Shutting down local machine in 5 seconds.
-	sleep 5s
-	sudo systemctl poweroff
+	echo "Press any key to shutdown the local machine, or press CTRL-C to exit script."
+	read -s -n 1 && sudo systemctl poweroff
 elif [ $operation = "update" ]
 then
-	echo Updating local machine.....
+	echo "Updating local machine....."
 	correctpkg=$(whereis apt) && [ "$correctpkg" = "apt:" ] && sudo yum update -y
 	correctpkg=$(whereis yum) && [ "$correctpkg" = "yum:" ] && sudo apt-get update -y && sudo apt-get upgrade -y
 else
-	echo Invalid operation specified.
+	echo "Invalid operation specified."
 fi
