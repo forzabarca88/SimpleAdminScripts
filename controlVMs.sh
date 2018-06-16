@@ -14,13 +14,13 @@ do
 		if [ $operation = "shutdown" ]
 		then
 			ssh $i 'systemctl poweroff'
-			echo Shutdown command sent to $i, return code - $?
+			echo Shutdown command sent to $i.
 
 		elif [ $operation = "update" ]
 		then
 			ssh $i 'correctpkg=$(whereis apt) && [ "$correctpkg" = "apt:" ] && sudo yum update -y' &
 			ssh $i 'correctpkg=$(whereis yum) && [ "$correctpkg" = "yum:" ] && sudo apt-get update -y && sudo apt-get upgrade -y' &
-			echo Update command sent to $i, return code - $?
+			echo Update command sent to $i.
 		else
 			echo Invalid operation specified.
 		fi
