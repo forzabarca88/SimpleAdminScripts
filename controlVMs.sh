@@ -13,7 +13,7 @@ do
 	then
 		if [ $operation = "shutdown" ]
 		then
-			ssh $i 'systemctl poweroff'
+			ssh $i 'sudo systemctl poweroff'
 			echo Shutdown command sent to $i.
 
 		elif [ $operation = "update" ]
@@ -37,7 +37,7 @@ if [ $operation = "shutdown" ]
 then
 	echo Shutting down local machine in 5 seconds.
 	sleep 5s
-	systemctl poweroff
+	sudo systemctl poweroff
 elif [ $operation = "update" ]
 then
 	echo Updating local machine.....
