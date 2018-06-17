@@ -24,8 +24,9 @@ do
 		elif [ $operation = "-c" ]
 		then
 			comm=$2
-			echo "Running command - $comm"
-			ssh $i '$comm' &
+			echo "Running command on $i - $comm"
+			echo $comm | xargs ssh $i #need to use this method because passing the command as a variable into ssh does not work
+			echo "Return code - $?"
 		else
 			echo "Invalid operation specified."
 		fi
@@ -52,6 +53,7 @@ elif [ $operation = "-c" ]
                         comm=$2
                         echo "Running command on local machine - $comm"
                         $comm
+			echo "Return code - $?"
 else
 	echo "Invalid operation specified."
 fi
