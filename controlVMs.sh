@@ -24,7 +24,7 @@ do
 		elif [ $operation = "-c" ]
 		then
 			comm=$2
-			echo "Running command - $2"
+			echo "Running command - $comm"
 			ssh $i '$comm' &
 		else
 			echo "Invalid operation specified."
@@ -47,6 +47,11 @@ then
 	echo "Updating local machine....."
 	correctpkg=$(whereis apt) && [ "$correctpkg" = "apt:" ] && sudo yum update -y
 	correctpkg=$(whereis yum) && [ "$correctpkg" = "yum:" ] && sudo apt-get update -y && sudo apt-get upgrade -y
+elif [ $operation = "-c" ]
+                then
+                        comm=$2
+                        echo "Running command on local machine - $comm"
+                        $comm
 else
 	echo "Invalid operation specified."
 fi
