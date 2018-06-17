@@ -1,7 +1,7 @@
 #!/bin/bash
 #Runs commands on multiple machines
 #Requires private key authentication and NOPASSWD in sudo
-#Usage - ./controlVMs.sh <update | shutdown>
+#Usage - ./controlVMs.sh < update | shutdown | -c "command" >
 
 hosts=( "jdc-centos-network" "jdc-centos-app" "jdc-centos-app2" )
 
@@ -21,6 +21,11 @@ do
 			ssh $i 'correctpkg=$(whereis apt) && [ "$correctpkg" = "apt:" ] && sudo yum update -y' &
 			ssh $i 'correctpkg=$(whereis yum) && [ "$correctpkg" = "yum:" ] && sudo apt-get update -y && sudo apt-get upgrade -y' &
 			echo "Update command sent to $i."
+		elif [ $operation = "-c" ]
+		then
+			comm=$2
+			echo "Running command - $2"
+			ssh $i '$comm' &
 		else
 			echo "Invalid operation specified."
 		fi
