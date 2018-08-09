@@ -7,6 +7,8 @@ hosts=( "jdc-centos-network" "jdc-centos-app" "jdc-centos-app2" )
 
 operation=$1
 
+[ -z "$operation" ] && echo 'ERROR: Missing arguments, exiting...' && exit -1
+
 for i in ${hosts[@]}
 do
 	if ping -c 1 $i &> /dev/null
